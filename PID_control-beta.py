@@ -10,7 +10,7 @@ kd = 0 # D制御
 
 bx = 0; by = 0
 bvx = bvy = 0
-errorx = [0]*3
+errorx = [0]*3 # [0]は現在の偏差 [1]はひとつ前 [2]はふたつ前
 errory = [0]*3
 
 def update(t):
@@ -24,14 +24,14 @@ def update(t):
     # 偏差
     errorx[0] = (ax - bx) 
     errory[0] = (ay - by) 
-    # PI制御
+    # PID制御
     bvx += kp * (errorx[0]-errorx[1]) + ki * errorx[0] + kd * (errorx[0] - 2*errorx[1] + errorx[2])
     bvy += kp * (errory[0]-errory[1]) + ki * errory[0] + kd * (errory[0] - 2*errory[1] + errory[2])
     bx += bvx * dt 
     by += bvy * dt 
     plt.plot(ax,ay,'o')
     plt.plot(bx,by,'o')
-    for i in range(2):
+    for i in (1,0):
         errorx[i+1] = errorx[i]
         errory[i+1] = errory[i]
 
